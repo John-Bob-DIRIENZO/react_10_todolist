@@ -2,7 +2,7 @@ import {TodoInterface} from "../Interface/TodoInterface";
 import {useState} from "react";
 
 // @ts-ignore
-export default function AddTodosForm({setTodos}) {
+export default function AddTodosForm({setTodos, isAuthorized}) {
 
     const [newTodo, setNewTodo] = useState<TodoInterface>({
         id: 0,
@@ -18,8 +18,12 @@ export default function AddTodosForm({setTodos}) {
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        setNewTodo((prevState: TodoInterface) => ({...prevState, id: Math.floor(Math.random() * 99999999)}))
-        setTodos((prev: TodoInterface[]) => [newTodo, ...prev]);
+        if (isAuthorized) {
+            setNewTodo((prevState: TodoInterface) => ({...prevState, id: Math.floor(Math.random() * 99999999)}))
+            setTodos((prev: TodoInterface[]) => [newTodo, ...prev]);
+        } else {
+            alert("t'as déjà de la merde à régler avant !")
+        }
     }
 
     return (
